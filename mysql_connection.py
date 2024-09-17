@@ -1,5 +1,6 @@
 import mysql.connector as connector
 import mysql.connector.errors
+import sqlite3
 import logging
 
 
@@ -7,7 +8,7 @@ class Mysql_connection:
     def __init__(self, hostname, port=3306):
         self.__is_connected = False
         self.__connection = None
-        self.__logger = logging.getLogger("logger")
+        self.__logger = logging.getLogger("mysql_connection")
         self.hostname = hostname
         self.port = port
 
@@ -28,7 +29,3 @@ class Mysql_connection:
         except mysql.connector.errors.DatabaseError as err:
             self.__logger.fatal(err.msg)
             raise mysql.connector.errors.DatabaseError(err.msg)
-
-
-
-
