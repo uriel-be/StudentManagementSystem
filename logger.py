@@ -12,6 +12,10 @@ def build_logger(path: str,
     if level.upper() not in logger_levels:
         raise ValueError(f'level most be in {logger_levels}')
     os.makedirs(path,exist_ok=True)
-    logging.basicConfig(filename=f'{path}/{file_name}', encoding='utf-8', format=logger_format)
-    logging.getLogger('logger').setLevel(level)
+    logging.basicConfig(
+        filename=f'{path}/{file_name}',
+        encoding='utf-8',
+        format=logger_format,
+        level=level.upper()
+    )
     logging.getLogger('logger').addHandler(logging.StreamHandler(sys.stdout))
