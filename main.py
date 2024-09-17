@@ -1,16 +1,17 @@
-# This is a sample Python script.
+from mysql_connection import Mysql_connection
+from logger import build_logger
+from config_reader import config_read
+from config_reader import CONFIG
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def setup(logs_dir):
+    build_logger(logs_dir)
+    config_read()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    setup('./logs')
+    con = Mysql_connection(CONFIG["db"]["hostname"], CONFIG["db"]["port"])
+    con.login(CONFIG["db"]["username"], CONFIG["db"]["password"])
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
