@@ -1,4 +1,4 @@
-from models.Students import Student
+from models.Students import Students
 from mysql_connection import Mysql_connection
 from logger import build_logger
 from config_reader import config_read
@@ -19,8 +19,5 @@ if __name__ == '__main__':
                            CONFIG["db"]["password"], CONFIG["db"]["port"])
     con.login()
     data, columns = con.query('select * from StudentManagement.students')
-    print(f'columns: {columns} \n data:{data}')
-    query_df = con.query_df('select * from StudentManagement.students')
-    data = [{'name': 'abc', 'age': 17, 'gender': Gender.MALE.name, 'contact_info': 'example'},
-            {'name': 'bcd', 'age': 'aaa', 'gender': Gender.MALE.name, 'contact_info': 'example'}]
-    con.insert(data, 'StudentManagement', 'students')
+    stud = Students(con)
+    stud.create_student("stud", 11, Gender.MALE, 'example')

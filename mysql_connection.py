@@ -58,11 +58,11 @@ class Mysql_connection:
                 cols = val.keys()
         insert_query = f'insert into {db_name}.{table} ({",".join(cols)}) values {",".join(all_values)}'
         try:
-            self.__logger.info(f'running query:"{insert_query}"')
+            self.__logger.debug(f'running query:"{insert_query}"')
             cursor = self.__get_cursor()
             cursor.execute(insert_query)
             self.__connection.commit()
-            self.__logger.info(f'{cursor.rowcount} rows inserted into {db_name}.{table}.')
+            self.__logger.debug(f'{cursor.rowcount} rows inserted into {db_name}.{table}.')
         except Exception as err:
             self.__logger.error(traceback.format_exc())
             raise err
