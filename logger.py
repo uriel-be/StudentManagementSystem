@@ -1,7 +1,7 @@
 import logging
-import enum
 import os
 import sys
+
 
 def build_logger(path: str,
                  level: str = 'DEBUG',
@@ -11,7 +11,7 @@ def build_logger(path: str,
     logger_levels = list(logging._nameToLevel.keys())
     if level.upper() not in logger_levels:
         raise ValueError(f'level most be in {logger_levels}')
-    os.makedirs(path,exist_ok=True)
+    os.makedirs(path, exist_ok=True)
     logging.basicConfig(
         filename=f'{path}/{file_name}',
         encoding='utf-8',
