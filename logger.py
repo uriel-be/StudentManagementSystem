@@ -1,11 +1,11 @@
 import logging
 import os
 import sys
-
+from datetime import datetime as dt
 
 def build_logger(path: str,
                  level: str = 'DEBUG',
-                 file_name='log.log',
+                 file_name=f'log_{dt.now().strftime("%Y%m%d_%H%M%S")}.log',
                  logger_format='%(asctime)s-%(name)s-%(levelname)s- %(message)s'
                  ):
     logger_levels = list(logging._nameToLevel.keys())
