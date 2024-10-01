@@ -3,6 +3,7 @@
     "hostname": "localhost",
     "port": 3306,
     "username": "user1",
-    "password": "User1"
+    "password": "User1",
+    "db_name": "StudentManagement"
   }
 }
