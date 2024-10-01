@@ -20,4 +20,4 @@ if __name__ == '__main__':
     con.login()
     data, columns = con.query('select * from StudentManagement.students')
     stud = Students(con)
-    stud.create_student("stud", 11, Gender.MALE, 'example')
+    print(stud.get_students(gender=Gender.MALE))

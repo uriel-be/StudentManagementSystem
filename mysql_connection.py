@@ -83,12 +83,14 @@ class Mysql_connection:
         try:
             curser.execute(query, params)
             result = curser.fetchall()
-            self.__logger.info(f'The query "{curser.statement}" return {curser.rowcount} rows')
+            self.__logger.debug(f'The query "{curser.statement}" return {curser.rowcount} rows')
             return result, list(curser.column_names)
         except mysql.connector.errors.ProgrammingError as err:
+            self.__logger.error(f'execute "{query}" failed')
             self.__logger.error(traceback.format_exc())
             raise err
         except Exception as err:
+            self.__logger.error(f'execute "{query}" failed')
             self.__logger.error(traceback.format_exc())
             raise err
 
@@ -97,4 +99,4 @@ class Mysql_connection:
         if not result:
             return None
         df = pandas.DataFrame(data=result, columns=columns)
-        print(df)
+        return df
