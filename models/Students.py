@@ -1,5 +1,8 @@
 import logging
 import traceback
+
+import pandas
+
 import mysql_connection
 from enums.Gender import Gender
 from config_reader import CONFIG
@@ -43,7 +46,20 @@ class Students:
                      , name: str = None
                      , gender: Gender = None
                      , limit=None
-                     ):
+                     ) -> pandas.DataFrame:
+        """
+        This function return a pandas df of students
+        after filter with the relevant conditions
+        (all the filters default value are None)
+
+        :param int student_id: filter students by ID.
+        :param int min_age: filter students by min age (include).
+        :param int max_age: filter students by max age (include).
+        :param str name: filter by student name (include).
+        :param Gender gender: filter student by gender.
+        :param int limit: maximum rows to return.
+        :return: pandas.DataFrame with the relevant students
+        """
         base_query = f'select * from {self.__students_db}.{self.__students_tbl}'
         filters = ' where 1=1'
         if student_id is not None:
@@ -53,9 +69,9 @@ class Students:
         if None not in (max_age, min_age):
             filters += f' and age between {min_age} and {max_age}'
         elif max_age is not None:
-            filters += f' and age<{max_age}'
+            filters += f' and age<={max_age}'
         elif min_age is not None:
-            filters += f' and age > {min_age}'
+            filters += f' and age >= {min_age}'
         if gender is not None:
             filters += f" and upper(gender) = '{gender.name}'"
         limit_rows = f' limit {limit}' if limit is not None else ''
