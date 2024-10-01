@@ -9,9 +9,10 @@ from config_reader import CONFIG
 
 
 class Students:
-    def __init__(self, db_connection: mysql_connection):
+    def __init__(self, db_connection: mysql_connection.Mysql_connection):
         self.__connection = db_connection
-        self.__connection.login()
+        if not self.__connection.is_connected():
+            self.__connection.login()
         self.__logger = logging.getLogger('logger')
         self.__students_db = CONFIG["db"]["db_name"]
         self.__students_tbl = 'students'
