@@ -1,3 +1,5 @@
+import sys
+
 from models.Students import Students
 from mysql_connection import Mysql_connection
 from logger import build_logger
@@ -15,9 +17,17 @@ def setup(logs_dir):
 
 
 if __name__ == '__main__':
-    setup('./logs')
-    con = Mysql_connection(CONFIG["db"]["hostname"], CONFIG["db"]["username"],
-                           CONFIG["db"]["password"], CONFIG["db"]["port"])
+    '''
+    This app expect to receive 3 param from out:
+    1.logger relative path
+    2.DB username
+    3.DB password
+    in this order.
+    example how to run: py ./main.py <logger_path> <db_username> <db_password>
+    '''
+    setup(sys.argv[1])
+    con = Mysql_connection(CONFIG["db"]["hostname"], username=sys.argv[2],
+                           password=sys.argv[3], port=CONFIG["db"]["port"])
     con.login()
     # data, columns = con.query('select * from StudentManagement.students')
     # stud = Students(con)
