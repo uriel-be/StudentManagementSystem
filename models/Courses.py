@@ -46,7 +46,7 @@ class Courses:
         ids = kwargs.get('ids')
         names = kwargs.get('names')
         limit = kwargs.get('limit')
-        query = f'select * from StudentManagement.courses'
+        query = f'select * from {self.__courses_db}.{self.__courses_tbl}'
         if ids or names:
             formatted_id = f"id in ({','.join(str(course_id) for course_id in ids)}) " if ids else None
             formatted_names = f'''course_name in ({','.join(["'" + name + "'" for name in names])}) ''' if names else None
