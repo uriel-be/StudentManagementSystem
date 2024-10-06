@@ -52,7 +52,14 @@ class Mysql_connection:
         all_values = []
         cols = []
         for val in values:
-            new_values = [str(my_val) if str(my_val).isnumeric() else f"'{my_val}'" for my_val in val.values()]
+            new_values = []
+            for col_val in val.values():
+                if col_val is None:
+                    new_values.append('null')
+                elif str(col_val).isnumeric():
+                    new_values.append(str(col_val))
+                else:
+                    new_values.append(f"'{col_val}'")
             all_values.append(f'({",".join(new_values)})')
             if not cols:
                 cols = val.keys()
@@ -62,7 +69,7 @@ class Mysql_connection:
             cursor = self.__get_cursor()
             cursor.execute(insert_query)
             self.__connection.commit()
-            self.__logger.debug(f'{cursor.rowcount} rows inserted into {db_name}.{table}.')
+            self.__logger.info(f'{cursor.rowcount} rows inserted into {db_name}.{table}.')
         except Exception as err:
             self.__logger.error(traceback.format_exc())
             raise err
