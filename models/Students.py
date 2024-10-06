@@ -85,3 +85,9 @@ class Students:
             self.__logger.error(f'failed to query students because: {err}')
             raise err
         return results
+
+    def is_student_exist(self, student_id: int) -> bool:
+        result = self.get_students(student_id=student_id)
+        if result.count() > 0:
+            return True
+        return False
