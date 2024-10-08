@@ -57,7 +57,7 @@ class Enrollments:
             query = ' '.join([query, 'where', filters])
         self.__logger.info(f'try to get enrollments list with query: {query}')
         results = self.__connect.query_df(query)
-        self.__logger.info(f'{results.count()} enrollments returned.')
+        self.__logger.info(f'{results.size} enrollments returned.')
         return results
 
     def is_enrolled(self, student_id: int, course: int) -> bool:
@@ -66,7 +66,7 @@ class Enrollments:
             'courses_ids': [course]
         }
         result = self.get_enrollments(**filters)
-        return result.count() > 0
+        return result.size > 0
 
     def add_enrollment(self, student_id: int, course_id: int):
         if not self.__students.is_student_exist(student_id):
@@ -75,4 +75,3 @@ class Enrollments:
         if not self.__curses.is_course_exist(course_id):
             self.__logger.error("can't add enrollment because course not exist.")
             raise ValueError("can't add enrollment because course not exist.")
-        enrollment = get_enrollment_dict(student_id, course_id, None)

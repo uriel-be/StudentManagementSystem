@@ -103,7 +103,7 @@ class Mysql_connection:
 
     def query_df(self, sql_query: str, params: tuple = None):
         result, columns = self.query(sql_query, params)
-        if not result:
-            return None
+        #if not result:
+        #    return None
         df = pandas.DataFrame(data=result, columns=columns)
         return df

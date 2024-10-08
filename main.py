@@ -36,9 +36,5 @@ if __name__ == '__main__':
     courses = Courses(con)
     # courses.add_course('some course', 'description')
     # courses.get_courses(**{"ids": [1, 2, 3, 4, 5], "limit": 10})
-    Enrollments = Enrollments(con)
-    print(Enrollments.get_enrollments(**{
-        #"students_ids": []
-        #,
-        "courses_ids": [5]
-    }))
+    enrollments = Enrollments(con)
+    print(enrollments.is_enrolled(80, 5))
