@@ -61,6 +61,13 @@ class Enrollments:
         return results
 
     def is_enrolled(self, student_id: int, course: int) -> bool:
+        """
+        this func check if student already enrolled to course
+        :param student_id:int :student id
+        :param course:int :course id
+        :return:True-if student already enrolled to course.
+                False-otherwise.
+        """
         filters = {
             'students_ids': [student_id],
             'courses_ids': [course]
