@@ -64,7 +64,7 @@ class Students:
         base_query = f'select * from {self.__students_db}.{self.__students_tbl}'
         filters = ' where 1=1'
         if student_id is not None:
-            filters += f'and id = {student_id}'
+            filters += f' and id = {student_id}'
         if name is not None:
             filters += f" and name='{name}'"
         if None not in (max_age, min_age):
@@ -88,6 +88,6 @@ class Students:
 
     def is_student_exist(self, student_id: int) -> bool:
         result = self.get_students(student_id=student_id)
-        if result.count() > 0:
+        if result.size > 0:
             return True
         return False

@@ -12,7 +12,7 @@ import logging
 def get_enrollment_dict(student_id: int, course_id: int, grade):
     enrollment = {
         "student_id": student_id,
-        "course": course_id,
+        "course_id": course_id,
         "grade": grade
     }
     return enrollment
@@ -75,3 +75,11 @@ class Enrollments:
         if not self.__curses.is_course_exist(course_id):
             self.__logger.error("can't add enrollment because course not exist.")
             raise ValueError("can't add enrollment because course not exist.")
+        if self.is_enrolled(student_id, course_id):
+            self.__logger.info(f'student {student_id} already enrolled to course {course_id}.')
+            return
+        query = f'insert into table {self.__db_name}.{self.__tbl_name} values ({student_id},{course_id},null);'
+        self.__logger.info(f'try to enrolling student {student_id} to course: {course_id}.')
+        enroll = get_enrollment_dict(student_id, course_id, None)
+        self.__connect.insert([enroll], self.__db_name, self.__tbl_name)
+        self.__logger.info(f'student {student_id} enrolled to course {course_id} successfully.')

@@ -60,11 +60,11 @@ class Courses:
         query += ';'
         self.__logger.info(f'Try get courses list with query: "{query}"')
         result = self.__connection.query_df(query)
-        print(result)
+        return result
 
     def is_course_exist(self, course_id: int) -> bool:
         filters = {"ids": [course_id]}
         query_result = self.get_courses(**filters)
-        if query_result.count() > 0:
+        if query_result.size > 0:
             return True
         return False
