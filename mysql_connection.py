@@ -38,7 +38,7 @@ class Mysql_connection:
             )
             if self.__connection.is_connected():
                 self.__is_connected = True
-                self.__logger.info(f"connected to db {self.hostname}:{self.port}")
+                self.__logger.debug(f"connected to db {self.hostname}:{self.port}")
         except mysql.connector.errors.DatabaseError as err:
             self.__logger.fatal(traceback.format_exc())
             raise mysql.connector.errors.DatabaseError(traceback.format_exc())
@@ -69,7 +69,7 @@ class Mysql_connection:
             cursor = self.__get_cursor()
             cursor.execute(insert_query)
             self.__connection.commit()
-            self.__logger.info(f'{cursor.rowcount} rows inserted into {db_name}.{table}.')
+            self.__logger.debug(f'{cursor.rowcount} rows inserted into {db_name}.{table}.')
         except Exception as err:
             self.__logger.error(traceback.format_exc())
             raise err
@@ -103,7 +103,7 @@ class Mysql_connection:
 
     def query_df(self, sql_query: str, params: tuple = None):
         result, columns = self.query(sql_query, params)
-        if not result:
-            return None
+        #if not result:
+        #    return None
         df = pandas.DataFrame(data=result, columns=columns)
         return df

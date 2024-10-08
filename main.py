@@ -7,6 +7,7 @@ from config_reader import config_read
 from config_reader import CONFIG
 from enums.Gender import Gender
 from models.Courses import Courses
+from models.Enrollments import Enrollments
 
 import os
 
@@ -34,4 +35,7 @@ if __name__ == '__main__':
     # print(stud.get_students(gender=Gender.MALE))
     courses = Courses(con)
     # courses.add_course('some course', 'description')
-    courses.get_courses(**{"ids": [1, 2, 3, 4, 5], "limit": 10})
+    # courses.get_courses(**{"ids": [1, 2, 3, 4, 5], "limit": 10})
+    enrollments = Enrollments(con)
+    print(enrollments.is_enrolled(83, 5))
+    enrollments.add_enrollment(84, 5)
