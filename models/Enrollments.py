@@ -1,5 +1,7 @@
 import logging
 
+import pandas
+
 from config_reader import CONFIG
 from mysql_connection import Mysql_connection
 from models.Students import Students
@@ -27,7 +29,7 @@ class Enrollments:
         self.__db_name = CONFIG['db']['db_name']
         self.__tbl_name = 'enrollment'
 
-    def get_enrollments(self, **kwargs):
+    def get_enrollments(self, **kwargs) -> pandas.DataFrame:
         """
         This Function Return a Pandas Dataframe of Students and the courses they are enroll to.
         :param kwargs: expect to receive a dict with the next keys:
@@ -52,13 +54,19 @@ class Enrollments:
             students = f'enrollments.student_id in ({",".join([str(item) for item in students])})' if students else None
             courses = f'enrollments.course_id in ({",".join([str(item) for item in courses])})' if courses else None
             filters = " and ".join(filter(None, [students, courses]))
-            query = ' '.join([query, 'where',filters])
+            query = ' '.join([query, 'where', filters])
         self.__logger.info(f'try to get enrollments list with query: {query}')
         results = self.__connect.query_df(query)
+        self.__logger.info(f'{results.count()} enrollments returned.')
         return results
 
-    def is_enrolled(self, student_id, course):
-        pass
+    def is_enrolled(self, student_id: int, course: int) -> bool:
+        filters = {
+            'students_ids': [student_id],
+            'courses_ids': [course]
+        }
+        result = self.get_enrollments(**filters)
+        return result.count() > 0
 
     def add_enrollment(self, student_id: int, course_id: int):
         if not self.__students.is_student_exist(student_id):
