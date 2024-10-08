@@ -1,4 +1,7 @@
 import logging
+
+import pandas
+
 from config_reader import CONFIG
 from mysql_connection import Mysql_connection
 
@@ -32,7 +35,7 @@ class Courses:
         self.__logger.info(f'try to add {len(courses)} new courses')
         self.__connection.insert(courses, self.__courses_db, self.__courses_tbl)
 
-    def get_courses(self, **kwargs):
+    def get_courses(self, **kwargs) -> pandas.DataFrame:
         """
         this function return a Pandas DF with details about courses.
         :param kwargs: expect to dict with the keys:
@@ -58,3 +61,10 @@ class Courses:
         self.__logger.info(f'Try get courses list with query: "{query}"')
         result = self.__connection.query_df(query)
         print(result)
+
+    def is_course_exist(self, course_id: int) -> bool:
+        filters = {"ids": [course_id]}
+        query_result = self.get_courses(**filters)
+        if query_result.count() > 0:
+            return True
+        return False
